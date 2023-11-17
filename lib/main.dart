@@ -32,7 +32,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {}
+  void _incrementCounter() {
+    int nextNumber = _counter + 1;
+    while (!isPrime(nextNumber)) {
+      nextNumber++;
+    }
+    setState(() {
+      _counter = nextNumber;
+    });
+  }
+
+  bool isPrime(int number) {
+    for (int i = 2; i <= number ~/ 2; i++) {
+      if (number % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
