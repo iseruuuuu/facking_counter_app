@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,25 +32,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _randomString = 'Hello World';
 
-  void _incrementCounter() {
-    int nextNumber = _counter + 1;
-    while (!isPrime(nextNumber)) {
-      nextNumber++;
-    }
-    setState(() {
-      _counter = nextNumber;
-    });
+  void _generateRandomString() {
+    _randomString = generateRandomString(5);
+    setState(() {});
   }
 
-  bool isPrime(int number) {
-    for (int i = 2; i <= number ~/ 2; i++) {
-      if (number % i == 0) {
-        return false;
-      }
-    }
-    return true;
+  String generateRandomString(int length) {
+    const characters = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
+    final random = Random();
+
+    // 文字コードを受け取り、それを文字列に変換します
+    return String.fromCharCodes(
+      // 指定された長さのリストを作成
+      Iterable.generate(
+        length,
+        // リストの各要素（この場合は文字コード）をどのように生成するかを定義
+        (_) => characters.codeUnitAt(
+          random.nextInt(characters.length),
+        ),
+      ),
+    );
   }
 
   @override
@@ -66,14 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              _randomString,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _generateRandomString,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
